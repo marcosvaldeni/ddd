@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
     "@types/node": "^20.11.30",
-    "typescript": "^5.4.3"
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
   }
 }
