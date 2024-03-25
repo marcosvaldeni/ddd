@@ -7,8 +7,9 @@ interface AnswerQuestionUseCaseRequest {
 }
 
 export class AnswerQuestionUseCase {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   execute({ instructorId, questionId, content }: AnswerQuestionUseCaseRequest) {
-    const answer = new Answer(content);
+    const answer = new Answer({ content, authorId: instructorId, questionId });
 
     return answer;
   }
