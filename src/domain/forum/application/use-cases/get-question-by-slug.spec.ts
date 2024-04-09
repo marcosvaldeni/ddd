@@ -24,6 +24,6 @@ describe('Get question by slug', () => {
     });
 
     expect(question.id).toBeTruthy();
-    expect(question.title).toEqual('Example question');
+    expect(question.title).toEqual(newQuestion.title);
   });
 });
