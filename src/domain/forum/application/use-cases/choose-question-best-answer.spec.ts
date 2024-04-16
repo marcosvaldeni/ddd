@@ -19,7 +19,7 @@ describe('Choose Question Best Answer', () => {
     );
   });
 
-  it.only('should be able to choose the question best anwser', async () => {
+  it('should be able to choose the question best anwser', async () => {
     const question = makeQuestion();
 
     const answer = makeAnswer({ questionId: question.id });
