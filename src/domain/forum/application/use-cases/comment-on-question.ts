@@ -1,8 +1,9 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment';
 import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository';
 import { Either, left, right } from '@/core/either';
 import { ResourceNotFoundError } from '@/domain/forum/application/use-cases/errors/resource-not-found-error';
+import { UniqueEntityID } from '@/core/entities/unique-entity.id';
+import { QuestionRepository } from '../repositories/questions-repository';
 
 interface CommentOnQuestionUseCaseRequest {
   authorId: string;
@@ -19,7 +20,7 @@ type CommentOnQuestionUseCaseResponse = Either<
 
 export class CommentOnQuestionUseCase {
   constructor(
-    private questionsRepository: QuestionsRepository,
+    private questionsRepository: QuestionRepository,
     private questionCommentsRepository: QuestionCommentsRepository,
   ) {}
 
