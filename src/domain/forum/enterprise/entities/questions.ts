@@ -5,14 +5,14 @@ import { Entity } from '@/core/entities/entities'
 import { Slug } from './value-objects/slug'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 
-export interface QuestionProps {
+interface QuestionProps {
   authorId: UniqueEntityID
-  bestAnswerId: UniqueEntityID
+  bestAnswerId?: UniqueEntityID
   title: string
   content: string
   slug: Slug
   createdAt: Date
-  updatedAt: Date
+  updatedAt?: Date
 }
 
 export class Question extends Entity<QuestionProps> {

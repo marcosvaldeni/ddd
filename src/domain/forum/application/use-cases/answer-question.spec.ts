@@ -1,9 +1,10 @@
 import { expect } from 'vitest'
 import { AnswerQuestionUseCase } from './answer-question'
 import { Answer } from '../../enterprise/entities/answer'
-import { AnswerRepository } from '../repositories/answers-repository'
+import { AnswersRepository } from '../repositories/answers-repository'
 
-const fakeAnswersRepository: AnswerRepository = {
+const fakeAnswersRepository: AnswersRepository = {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   create: async (answer: Answer) => {},
 }
 
