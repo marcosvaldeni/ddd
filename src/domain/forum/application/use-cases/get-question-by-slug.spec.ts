@@ -22,7 +22,14 @@ describe('Get Question By Slug', () => {
 
     await sut.execute({ slug: 'exmple-question' })
 
-    // expect(result.value?.question.id).toBeTruthy()
-    // expect(result.value?.question.title).toBe(newQuestion.title)
+    const result = await sut.execute({
+      slug: 'exmple-question',
+    })
+
+    expect(result.value).toMatchObject({
+      question: expect.objectContaining({
+        title: newQuestion.title,
+      }),
+    })
   })
 })
