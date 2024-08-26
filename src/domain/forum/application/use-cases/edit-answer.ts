@@ -1,74 +1,46 @@
+import { Answer } from '@/domain/forum/enterprise/entities/answer'
+import { AnswersRepository } from '../repositories/answers-repository'
 import { Either, left, right } from '@/core/either'
 import { NotAllowedError } from '@/domain/forum/application/use-cases/errors/not-allowed-error'
-import { Question } from '@/domain/forum/enterprise/entities/question'
-import { QuestionsRepository } from '../repositories/questions-repository'
-import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments-repository'
-import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list'
-import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from './errors/resource-not-foutnd-error'
 
-interface EditQuestionUseCaseRequest {
+interface EditAnswerUseCaseRequest {
   authorId: string
-  questionId: string
-  title: string
+  answerId: string
   content: string
-  attachmentsIds: string[]
 }
 
-type EditQuestionUseCaseResponse = Either<
+type EditAnswerUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
   {
-    question: Question
+    answer: Answer
   }
 >
 
-export class EditQuestionUseCase {
-  constructor(
-    private questionsRepository: QuestionsRepository,
-    private questionAttachmentsRepository: QuestionAttachmentsRepository,
-  ) {}
+export class EditAnswerUseCase {
+  constructor(private answersRepository: AnswersRepository) {}
 
   async execute({
     authorId,
-    questionId,
-    title,
+    answerId,
     content,
-    attachmentsIds,
-  }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
-    const question = await this.questionsRepository.findById(questionId)
+  }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
+    const answer = await this.answersRepository.findById(answerId)
 
-    if (!question) {
+    if (!answer) {
       return left(new ResourceNotFoundError())
     }
-    if (authorId !== question.authorId.toString()) {
+
+    if (authorId !== answer.authorId.toString()) {
       return left(new NotAllowedError())
     }
 
-    const currentQuestionAttachments =
-      await this.questionAttachmentsRepository.findManyByQuestionId(questionId)
+    answer.content = content
 
-    const questionAttachmentList = new QuestionAttachmentList(
-      currentQuestionAttachments,
-    )
-
-    const questionAttachments = attachmentsIds.map((attachmentId) => {
-      return QuestionAttachment.create({
-        attachmentId: new UniqueEntityID(attachmentId),
-        questionId: question.id,
-      })
-    })
-
-    questionAttachmentList.update(questionAttachments)
-
-    question.title = title
-    question.content = content
-    question.attachments = questionAttachmentList
-
-    await this.questionsRepository.save(question)
+    await this.answersRepository.save(answer)
 
     return right({
-      question,
+      answer,
     })
   }
 }
